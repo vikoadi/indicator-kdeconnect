@@ -99,15 +99,18 @@ namespace KDEConnectIndicator {
         }
         private void update_status_item () {
 
-            if (device.is_reachable ())
-                this.status_item.label="Status: Reachable";
-            else
-                this.status_item.label="Status: Not Reachable";
-
-            if (device.is_paired ())
-                this.status_item.label += " and Paired";
-            else
-                this.status_item.label += " but Not Paired";
+            if (device.is_reachable ()) {
+                if (device.is_paired ())
+                    this.status_item.label = "Device Reachable and Paired";
+                else
+                    this.status_item.label = "Device Reachable but Not Paired";
+            } else {
+                if (device.is_paired ())
+                    this.status_item.label = "Device Paired but not Reachable";
+                else
+                    // is this even posible?
+                    this.status_item.label = "Device Not Reachable and Not Paired";
+            }
         }
         private void update_pair_item () {
             var paired = device.is_paired ();

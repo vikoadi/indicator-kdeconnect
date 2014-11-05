@@ -1,7 +1,7 @@
 namespace KDEConnectIndicator {
     public class DeviceIndicator {
         private const string ICON_NAME = "phone-symbolic";
-        private Application app;
+        public string path;
         private Device device;
         private Gtk.Menu menu;
         private AppIndicator.Indicator indicator;
@@ -12,12 +12,13 @@ namespace KDEConnectIndicator {
         private Gtk.SeparatorMenuItem separator;
         private Gtk.MenuItem pair_item;
         private Gtk.MenuItem unpair_item;
-        public DeviceIndicator (Application app, string path) {
-            this.app = app;
+        public DeviceIndicator (string path) {
+            this.path = path;
             device = new Device (path);
             menu = new Gtk.Menu ();
 
-            indicator = new AppIndicator.Indicator ("KDE Connect",
+            indicator = new AppIndicator.Indicator (
+                    path,
                     ICON_NAME,
                     AppIndicator.IndicatorCategory.APPLICATION_STATUS);
             indicator.set_status (AppIndicator.IndicatorStatus.ACTIVE);

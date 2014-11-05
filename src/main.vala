@@ -8,9 +8,9 @@ namespace KDEConnectIndicator {
 
         protected override void startup () {
             base.startup ();
+
             var manager = new KDEConnectManager ();
-            var indicator = new DeviceIndicator (this,
-                    "/modules/kdeconnect/devices/603008be5222571f");
+
             new MainLoop ().run ();
         }
 

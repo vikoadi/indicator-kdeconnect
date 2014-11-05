@@ -42,4 +42,4 @@ add_executable(${EXEC_NAME} ${VALA_C})
 # install the binaries we just made
 install (TARGETS ${EXEC_NAME} RUNTIME DESTINATION bin)
 # install our .desktop file so the Applications menu will see it
-#install (FILES ${CMAKE_CURRENT_SOURCE_DIR}/data/indicator-kdeconnect.desktop DESTINATION ${DATADIR}/applications/)
+install (FILES ${CMAKE_CURRENT_SOURCE_DIR}/data/indicator-kdeconnect.desktop DESTINATION ${DATADIR}/applications/)

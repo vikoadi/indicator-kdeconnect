@@ -7,19 +7,21 @@ namespace KDEConnectIndicator {
         public string name {
             get {
                 // TODO : How to read dbus properties using DBusConnection?
-                /* try { */
-                /*     Variant return_variant = conn.get ( */
-                /*             "org.kde.kdeconnect", */
-                /*             path, */
-                /*             "org.kde.kdeconnect.device", */
-                /*             "name" */
-                /*             ); */
-                /*     Variant i = return_variant.get_child_value (0); */
-                /*     if (i!=null) */
-                /*         return i.get_string (); */
-                /* } catch (Error e) { */
-                /*     message (e.message); */
-                /* } */
+                /*
+                try {
+                    Variant return_variant = conn.get (
+                            "org.kde.kdeconnect",
+                            path,
+                            "org.kde.kdeconnect.device",
+                            "name"
+                            );
+                    Variant i = return_variant.get_child_value (0);
+                    if (i!=null)
+                        return i.get_string ();
+                } catch (Error e) {
+                    message (e.message);
+                }
+                */
                 return "";
             }
         }
@@ -48,7 +50,7 @@ namespace KDEConnectIndicator {
         }
 
         public Device (string path) {
-            message ("new device , %s",path);
+            message ("device : %s",path);
             this.path = path;
 
             try {

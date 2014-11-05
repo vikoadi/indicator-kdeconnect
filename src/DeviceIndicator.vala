@@ -92,10 +92,9 @@ namespace KDEConnectIndicator {
             });
         }
         private void update_battery_item () {
+            this.battery_item.label = "Battery : %d%%".printf(device.battery);
             if (device.is_charging ())
-                this.battery_item.label = "Battery : %d %% (charging)".printf(device.battery);
-            else
-                this.battery_item.label = "Battery : %d %%".printf(device.battery);
+                this.battery_item.label += " (charging)";
         }
         private void update_status_item () {
 

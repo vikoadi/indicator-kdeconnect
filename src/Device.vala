@@ -150,6 +150,9 @@ namespace KDEConnectIndicator {
             subs_identifier.append (id);
         }
         ~Device () {
+            if (is_mounted ())
+                unmount ();
+
             foreach (uint i in subs_identifier) {
                 conn.signal_unsubscribe (i);
             }
@@ -273,7 +276,10 @@ namespace KDEConnectIndicator {
                 open_file (mount_point);
             else {
                 mount();
-                open_file (mount_point);
+                Timeout.add (1000, ()=> { // idle for a few second to let sftp kickin
+                        open_file (mount_point);
+                        return false;
+                });
             }
         }
         public bool is_mounted () {

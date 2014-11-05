@@ -115,8 +115,10 @@ namespace KDEConnectIndicator {
         }
         private void device_visibility_changed_cb (DBusConnection con, string sender, string object,
                 string interface, string signal_name, Variant parameter) {
-            // TODO: dont know what it used for, please implement later
-            message ("device visibility changed");
+            string param = parameter.get_child_value (0).get_string ();
+            bool v = parameter.get_child_value (1).get_boolean ();
+            message ("visibility changed %s:%s", param, v?"visible":"invisible");
+            device_visibility_changed (param, v);
         }
 
         public signal void device_added (string id);

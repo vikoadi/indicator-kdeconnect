@@ -1,27 +1,23 @@
 namespace KDEConnectIndicator {
     public class Device {
         private DBusConnection conn;
+        private DBusProxy device_proxy;
         private string path;
         private SList<uint> subs_identifier;
 
         public string name {
             get {
-                // TODO : How to read dbus properties using DBusConnection?
-                /*
-                try {
-                    Variant return_variant = conn.get (
-                            "org.kde.kdeconnect",
-                            path,
-                            "org.kde.kdeconnect.device",
-                            "name"
-                            );
-                    Variant i = return_variant.get_child_value (0);
-                    if (i!=null)
-                        return i.get_string ();
-                } catch (Error e) {
-                    message (e.message);
-                }
-                */
+                Variant return_variant=device_proxy.get_cached_property ("name");
+                if (return_variant!=null)
+                    return return_variant.get_string ();
+                return "";
+            }
+        }
+        public string icon_name {
+            get {
+                Variant return_variant=device_proxy.get_cached_property ("iconName");
+                if (return_variant!=null)
+                    return return_variant.get_string ();
                 return "";
             }
         }
@@ -56,8 +52,23 @@ namespace KDEConnectIndicator {
             try {
                 conn = Bus.get_sync (BusType.SESSION);
             } catch (Error e) {
+                error (e.message);
+            }
+
+            try {
+                device_proxy = new DBusProxy.sync (
+                        conn,
+                        DBusProxyFlags.NONE,
+                        null,
+                        "org.kde.kdeconnect",
+                        path,
+                        "org.kde.kdeconnect.device",
+                        null
+                        );
+            } catch (Error e) {
                 message (e.message);
             }
+
 
             uint id;
             subs_identifier = new SList<uint> ();

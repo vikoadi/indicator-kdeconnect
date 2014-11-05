@@ -76,22 +76,29 @@ namespace KDEConnectIndicator {
                 update_battery_item ();
             });
             device.state_changed.connect ((charge) => {
-                update_status_item ();
+                update_battery_item ();
             });
             device.pairing_failed.connect (()=>{
                 update_pair_item ();
+                update_status_item ();
             });
             device.pairing_successful.connect (()=>{
                 update_pair_item ();
+                update_status_item ();
+                update_battery_item ();
             });
             device.reachable_status_changed.connect (()=>{
                 update_pair_item ();
+                update_status_item ();
             });
             device.unpaired.connect (()=>{
                 update_pair_item ();
+                update_status_item ();
+                update_battery_item ();
             });
         }
         private void update_battery_item () {
+            battery_item.visible = device.is_paired ();
             this.battery_item.label = "Battery : %d%%".printf(device.battery);
             if (device.is_charging ())
                 this.battery_item.label += " (charging)";

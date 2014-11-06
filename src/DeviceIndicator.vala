@@ -20,7 +20,7 @@ namespace KDEConnectIndicator {
             indicator = new AppIndicator.Indicator (
                     path,
                     ICON_NAME,
-                    AppIndicator.IndicatorCategory.APPLICATION_STATUS);
+                    AppIndicator.IndicatorCategory.HARDWARE);
             indicator.set_status (AppIndicator.IndicatorStatus.ACTIVE);
 
             menu.append(new Gtk.MenuItem.with_label (device.name));

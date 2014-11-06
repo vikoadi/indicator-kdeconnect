@@ -77,7 +77,7 @@ namespace KDEConnectIndicator {
                 }
             }
         }
-        private string[] devices (bool only_reachable = false, bool only_visible = false) {
+        private string[] devices (bool only_reachable = false) {
             string[] list = {};
             try {
                 var return_variant = conn.call_sync (
@@ -85,7 +85,7 @@ namespace KDEConnectIndicator {
                         "/modules/kdeconnect",
                         "org.kde.kdeconnect.daemon",
                         "devices",
-                        new Variant ("(bb)", only_reachable, only_visible),
+                        new Variant ("(b)", only_reachable),
                         null,
                         DBusCallFlags.NONE,
                         -1,

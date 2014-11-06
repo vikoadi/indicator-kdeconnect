@@ -8,7 +8,6 @@ list (APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake)
 	set (DATADIR "${CMAKE_INSTALL_PREFIX}/share")
 # what to call that directory where we install data too
 	set (PKGDATADIR "${DATADIR}/indicator-kdeconnect")
-	set (EXEC_NAME "indicator-kdeconnect")
 	set (RELEASE_NAME "whats up world")
 	set (VERSION_INFO "Indicator for KDE Connect daemon")
 	set (VERSION "0.1")
@@ -27,19 +26,36 @@ include(ValaVersion)
 	ensure_vala_version("0.20" MINIMUM)
 # files we want to compile
 include(ValaPrecompile)
-vala_precompile(VALA_C ${EXEC_NAME}
+
+#indicator 
+set (INDICATOR_EXEC "indicator-kdeconnect")
+vala_precompile(INDICATOR_VALA_C ${INDICATOR_EXEC}
 		src/main.vala
 		src/Device.vala
 		src/KDEConnectManager.vala
 		src/DeviceIndicator.vala
-# tell what libraries to use when compiling
 		PACKAGES
 		gtk+-3.0
 		appindicator3-0.1
 		       )
+
 # tell cmake what to call the executable we just made
-add_executable(${EXEC_NAME} ${VALA_C})
+add_executable(${INDICATOR_EXEC} ${INDICATOR_VALA_C})
 # install the binaries we just made
-install (TARGETS ${EXEC_NAME} RUNTIME DESTINATION bin)
+install (TARGETS ${INDICATOR_EXEC} RUNTIME DESTINATION bin)
 # install our .desktop file so the Applications menu will see it
 install (FILES ${CMAKE_CURRENT_SOURCE_DIR}/data/indicator-kdeconnect.desktop DESTINATION ${DATADIR}/applications/)
+
+# contractor binary
+set (CONTRACTOR_EXEC "kdeconnect-send")
+vala_precompile(VALA_C ${CONTRACTOR_EXEC}
+		src/contractor/Contractor.vala
+		src/Device.vala
+		PACKAGES
+		gtk+-3.0
+)
+
+add_executable(${CONTRACTOR_EXEC} ${VALA_C})
+install (TARGETS ${CONTRACTOR_EXEC} RUNTIME DESTINATION bin)
+# install .contract file
+install (FILES ${CMAKE_CURRENT_SOURCE_DIR}/data/kdeconnect.contract DESTINATION ${DATADIR}/contractor/)

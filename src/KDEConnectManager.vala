@@ -77,6 +77,16 @@ namespace KDEConnectIndicator {
                 }
             }
         }
+        private void distribute_visibility_changes (string id, bool visible) {
+            foreach (DeviceIndicator d in device_list) {
+                if (d.path.has_suffix (id)) {
+                    d.device_visibility_changed (visible);
+                    break;
+                }
+                message (d.path);
+                message (id);
+            }
+        }
         private string[] devices (bool only_reachable = false) {
             string[] list = {};
             try {
@@ -117,7 +127,8 @@ namespace KDEConnectIndicator {
                 string interface, string signal_name, Variant parameter) {
             string param = parameter.get_child_value (0).get_string ();
             bool v = parameter.get_child_value (1).get_boolean ();
-            message ("visibility changed %s:%s", param, v?"visible":"invisible");
+
+            distribute_visibility_changes (param, v);
             device_visibility_changed (param, v);
         }
 

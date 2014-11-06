@@ -7,6 +7,10 @@ namespace KDEConnectIndicator {
 
         public string name {
             get {
+                /* FIXME : because we use cached property we cant get new name
+                   if its changed. Is there any other way to get realtime
+                   property ?
+                */
                 Variant return_variant=device_proxy.get_cached_property ("name");
                 if (return_variant!=null)
                     return return_variant.get_string ();

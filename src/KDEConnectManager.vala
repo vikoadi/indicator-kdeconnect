@@ -11,6 +11,19 @@ namespace KDEConnectIndicator {
                 message (e.message);
             }
 
+            // TODO: need to make sure kdeconnectd daemon is running
+            int max_trying = 3;
+            while (!is_daemon_running ()) {
+                if (max_trying <= 0) {
+                    show_no_service_daemon ();
+                    return;
+                }
+
+                Thread.usleep (500);
+                message ("retrying to find KDE Connect DBus service");
+                max_trying--;
+            }
+
             device_list = new SList<DeviceIndicator> ();
             populate_devices ();
 
@@ -56,6 +69,26 @@ namespace KDEConnectIndicator {
                 conn.signal_unsubscribe (i);
         }
 
+
+        private void show_no_service_daemon () {
+            var msg = new Gtk.MessageDialog (
+                    null, Gtk.DialogFlags.MODAL,
+                    Gtk.MessageType.WARNING,
+                    Gtk.ButtonsType.OK,
+                    "cannot connect to KDE Connect DBus service"
+                    );
+            msg.response.connect(()=>{
+                    msg.destroy();
+                    GLib.Application.get_default ().quit_mainloop ();
+                    });
+
+            msg.show_all ();
+            msg.run ();
+        }
+        private bool is_daemon_running () {
+            // TODO:implement
+            return true;
+        }
         private void populate_devices () {
             string[] devs = devices ();
 

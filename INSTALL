@@ -1,0 +1,14 @@
+to compile you should have
+	gtk+-3.0-dev
+	libappindicator3-dev
+Obviously you should install kdeconnect to use the features
+
+compile:
+	mkdir build
+	cd build
+	cmake .. -DCMAKE_INSTALL_PREFIX=/usr
+	make
+	sudo make install
+
+enjoy!
+

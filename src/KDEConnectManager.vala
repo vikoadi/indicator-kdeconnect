@@ -11,9 +11,10 @@ namespace KDEConnectIndicator {
                 message (e.message);
             }
 
-            // TODO: need to make sure kdeconnectd daemon is running
-            int max_trying = 3;
+            int max_trying = 4;
             while (!is_daemon_running ()) {
+                if (max_trying == 2)
+                    run_kdeconnect_binary ();
                 if (max_trying <= 0) {
                     show_no_service_daemon ();
                     return;
@@ -85,9 +86,28 @@ namespace KDEConnectIndicator {
             msg.show_all ();
             msg.run ();
         }
+        private void run_kdeconnect_binary () {
+            File f = File.new_for_path ("/usr/lib/kde4/libexec/kdeconnectd");
+            if (f.query_exists ())
+                Process.spawn_command_line_sync (f.get_path ());
+        }
         private bool is_daemon_running () {
-            // TODO:implement
-            return true;
+            try {
+                var device_proxy = new DBusProxy.sync (
+                        conn,
+                        DBusProxyFlags.NONE,
+                        null,
+                        "org.kde.kdeconnect",
+                        "/modules/kdeconnect",
+                        "org.kde.kdeconnect.daemon",
+                        null
+                        );
+                return (device_proxy.get_name_owner () != null);
+            } catch (Error e) {
+                message (e.message);
+            }
+
+            return false;
         }
         private void populate_devices () {
             string[] devs = devices ();

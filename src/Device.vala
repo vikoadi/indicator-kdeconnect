@@ -64,8 +64,6 @@ namespace KDEConnectIndicator {
                         conn,
                         DBusProxyFlags.NONE,
                         null,
-                        // TODO: on older kdeconnect they use com.wordpress.albertvala,
-                        // should we detect it or just ignore it?
                         "org.kde.kdeconnect",
                         path,
                         "org.kde.kdeconnect.device",

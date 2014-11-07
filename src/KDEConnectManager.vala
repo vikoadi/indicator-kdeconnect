@@ -11,6 +11,20 @@ namespace KDEConnectIndicator {
                 message (e.message);
             }
 
+            int max_trying = 4;
+            while (!is_daemon_running ()) {
+                if (max_trying == 2)
+                    run_kdeconnect_binary ();
+                if (max_trying <= 0) {
+                    show_no_service_daemon ();
+                    return;
+                }
+
+                Thread.usleep (500);
+                message ("retrying to find KDE Connect DBus service");
+                max_trying--;
+            }
+
             device_list = new SList<DeviceIndicator> ();
             populate_devices ();
 
@@ -56,6 +70,45 @@ namespace KDEConnectIndicator {
                 conn.signal_unsubscribe (i);
         }
 
+
+        private void show_no_service_daemon () {
+            var msg = new Gtk.MessageDialog (
+                    null, Gtk.DialogFlags.MODAL,
+                    Gtk.MessageType.WARNING,
+                    Gtk.ButtonsType.OK,
+                    "cannot connect to KDE Connect DBus service"
+                    );
+            msg.response.connect(()=>{
+                    msg.destroy();
+                    GLib.Application.get_default ().quit_mainloop ();
+                    });
+
+            msg.show_all ();
+            msg.run ();
+        }
+        private void run_kdeconnect_binary () {
+            File f = File.new_for_path ("/usr/lib/kde4/libexec/kdeconnectd");
+            if (f.query_exists ())
+                Process.spawn_command_line_sync (f.get_path ());
+        }
+        private bool is_daemon_running () {
+            try {
+                var device_proxy = new DBusProxy.sync (
+                        conn,
+                        DBusProxyFlags.NONE,
+                        null,
+                        "org.kde.kdeconnect",
+                        "/modules/kdeconnect",
+                        "org.kde.kdeconnect.daemon",
+                        null
+                        );
+                return (device_proxy.get_name_owner () != null);
+            } catch (Error e) {
+                message (e.message);
+            }
+
+            return false;
+        }
         private void populate_devices () {
             string[] devs = devices ();
 

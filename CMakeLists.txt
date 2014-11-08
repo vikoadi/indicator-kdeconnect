@@ -59,3 +59,16 @@ add_executable(${CONTRACTOR_EXEC} ${VALA_C})
 install (TARGETS ${CONTRACTOR_EXEC} RUNTIME DESTINATION bin)
 # install .contract file
 install (FILES ${CMAKE_CURRENT_SOURCE_DIR}/data/kdeconnect.contract DESTINATION ${DATADIR}/contractor/)
+
+#install icons
+install (FILES ${CMAKE_CURRENT_SOURCE_DIR}/data/smartphone-symbolic.svg DESTINATION ${DATADIR}/icons/hicolor/scalable/devices/)
+install (FILES ${CMAKE_CURRENT_SOURCE_DIR}/data/tablet-symbolic.svg DESTINATION ${DATADIR}/icons/hicolor/scalable/devices/)
+install (FILES ${CMAKE_CURRENT_SOURCE_DIR}/data/computer-symbolic.svg DESTINATION ${DATADIR}/icons/hicolor/scalable/devices/)
+install (FILES ${CMAKE_CURRENT_SOURCE_DIR}/data/laptop-symbolic.svg DESTINATION ${DATADIR}/icons/hicolor/scalable/devices/)
+
+install(
+	CODE
+	"execute_process (COMMAND gtk-update-icon-cache -t -f ${CMAKE_INSTALL_PREFIX}/share/icons/hicolor)"
+	CODE
+	"message (STATUS \"Updated icon cache in ${CMAKE_INSTALL_PREFIX}/share/icons/hicolor\")"
+	)

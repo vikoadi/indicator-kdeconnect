@@ -93,8 +93,13 @@ namespace KDEConnectIndicator {
         }
         private void run_kdeconnect_binary () {
             File f = File.new_for_path ("/usr/lib/kde4/libexec/kdeconnectd");
-            if (f.query_exists ())
-                Process.spawn_command_line_sync (f.get_path ());
+            if (f.query_exists ()) {
+                try {
+                    Process.spawn_command_line_sync (f.get_path ());
+                } catch (Error e) {
+                    message (e.message);
+                }
+            }
         }
         private bool is_daemon_running () {
             try {

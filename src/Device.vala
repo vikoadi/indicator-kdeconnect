@@ -9,17 +9,30 @@ namespace KDEConnectIndicator {
         private DBusProxy device_proxy;
         private string path;
         private SList<uint> subs_identifier;
+        private string _name;
 
         public string name {
             get {
-                /* FIXME : because we use cached property we cant get new name
-                   if its changed. Is there any other way to get realtime
-                   property ?
-                */
-                Variant return_variant=device_proxy.get_cached_property ("name");
-                if (return_variant!=null)
-                    return return_variant.get_string ();
-                return "";
+                try {
+                    var return_variant = conn.call_sync (
+                            "org.kde.kdeconnect",
+                            path,
+                            "org.freedesktop.DBus.Properties",
+                            "Get",
+                            new Variant ("(ss)","org.kde.kdeconnect.device","name"),
+                            null,
+                            DBusCallFlags.NONE,
+                            -1,
+                            null
+                            );
+                    Variant s=return_variant.get_child_value (0);
+                    Variant v = s.get_variant ();
+                    string d= v.get_string ();
+                    _name ="%s".printf( Uri.unescape_string (d, null));
+                } catch (Error e) {
+                    message (e.message);
+                }
+                return _name;
             }
         }
         public string icon_name {

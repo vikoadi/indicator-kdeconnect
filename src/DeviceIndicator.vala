@@ -27,7 +27,6 @@ namespace KDEConnectIndicator {
                     path,
                     device.icon_name + "-symbolic",
                     AppIndicator.IndicatorCategory.HARDWARE);
-            indicator.set_status (AppIndicator.IndicatorStatus.ACTIVE);
 
             name_item = new Gtk.MenuItem ();
             menu.append(name_item);
@@ -49,6 +48,7 @@ namespace KDEConnectIndicator {
 
             menu.show_all ();
 
+            update_visibility ();
             update_name_item ();
             update_battery_item ();
             update_status_item ();
@@ -96,10 +96,12 @@ namespace KDEConnectIndicator {
                 update_battery_item ();
             });
             device.reachable_status_changed.connect (()=>{
+                update_visibility ();
                 update_pair_item ();
                 update_status_item ();
             });
             device.unpaired.connect (()=>{
+                update_visibility ();
                 update_pair_item ();
                 update_status_item ();
                 update_battery_item ();
@@ -107,10 +109,18 @@ namespace KDEConnectIndicator {
         }
         public void device_visibility_changed (bool visible) {
             message ("%s visibilitiy changed to %s", device.name, visible?"true":"false");
+            update_visibility ();
             update_name_item ();
             update_battery_item ();
             update_status_item ();
             update_pair_item ();
+        }
+
+        private void update_visibility () {
+            if (!device.is_reachable ())
+                indicator.set_status (AppIndicator.IndicatorStatus.PASSIVE);
+            else
+                indicator.set_status (AppIndicator.IndicatorStatus.ACTIVE);
         }
         private void update_name_item () {
             name_item.label = device.name;

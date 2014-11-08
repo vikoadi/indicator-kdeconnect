@@ -25,7 +25,7 @@ namespace KDEConnectIndicator {
 
             indicator = new AppIndicator.Indicator (
                     path,
-                    ICON_NAME,
+                    device.icon_name + "-symbolic",
                     AppIndicator.IndicatorCategory.HARDWARE);
             indicator.set_status (AppIndicator.IndicatorStatus.ACTIVE);
 

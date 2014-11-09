@@ -121,6 +121,17 @@ namespace KDEConnectIndicator {
             id = conn.signal_subscribe (
                     "org.kde.kdeconnect",
                     "org.kde.kdeconnect.device",
+                    "pluginsChanged",
+                    path,
+                    null,
+                    DBusSignalFlags.NONE,
+                    void_signal_cb
+                    );
+            subs_identifier.append (id);
+
+            id = conn.signal_subscribe (
+                    "org.kde.kdeconnect",
+                    "org.kde.kdeconnect.device",
                     "reachableStatusChanged",
                     path,
                     null,
@@ -442,6 +453,9 @@ namespace KDEConnectIndicator {
                 case "pairingSuccesful" :
                     pairing_successful ();
                     break;
+                case "pluginsChanged" :
+                    plugins_changed ();
+                    break;
                 case "reachableStatusChanged" :
                     pairing_successful ();
                     break;
@@ -489,6 +503,7 @@ namespace KDEConnectIndicator {
         public signal void charge_changed (int charge);
         public signal void pairing_failed (string error);
         public signal void pairing_successful ();
+        public signal void plugins_changed ();
         public signal void reachable_status_changed ();
         public signal void unpaired ();
         public signal void mounted ();

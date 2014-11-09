@@ -94,6 +94,10 @@ namespace KDEConnectIndicator {
                 update_status_item ();
                 update_battery_item ();
             });
+            device.plugins_changed.connect (()=>{
+                update_battery_item ();
+                update_pair_item ();
+            });
             device.reachable_status_changed.connect (()=>{
                 update_visibility ();
                 update_pair_item ();
@@ -153,11 +157,11 @@ namespace KDEConnectIndicator {
             pair_item.visible = !paired;
             unpair_item.visible = paired;
 
-            separator.visible = paired;
             browse_item.visible = paired && device.has_plugin ("kdeconnect_sftp");
             browse_item.sensitive = reachable;
             send_item.visible = paired && device.has_plugin ("kdeconnect_share");
             send_item.sensitive = reachable;
+            separator.visible = browse_item.visible || send_item.visible;
         }
     }
 }

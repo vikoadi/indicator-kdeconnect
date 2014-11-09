@@ -16,6 +16,8 @@ namespace KDEConnectIndicator {
 
             var manager = new KDEConnectManager ();
 
+            var ftw = new FirstTimeWizard (manager);
+
             new MainLoop ().run ();
         }
 

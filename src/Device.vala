@@ -38,9 +38,9 @@ namespace KDEConnectIndicator {
         public string icon_name {
             get {
                 Variant return_variant=device_proxy.get_cached_property ("iconName");
-                if (return_variant!=null)
+                if (return_variant!=null && return_variant.get_string () != "")
                     return return_variant.get_string ();
-                return "";
+                return "smartphone"; // default to smartphone as KDC 0.5 doens't have icon name props
             }
         }
         public int battery {

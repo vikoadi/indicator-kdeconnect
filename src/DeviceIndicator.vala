@@ -5,7 +5,6 @@
  */
 namespace KDEConnectIndicator {
     public class DeviceIndicator {
-        private const string ICON_NAME = "phone-symbolic";
         public string path;
         private Device device;
         private Gtk.Menu menu;

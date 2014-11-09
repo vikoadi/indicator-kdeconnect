@@ -125,7 +125,9 @@ namespace KDEConnectIndicator {
             name_item.label = device.name;
         }
         private void update_battery_item () {
-            battery_item.visible = device.is_paired () && device.is_reachable ();
+            battery_item.visible = device.is_paired ()
+                && device.is_reachable ()
+                && device.has_plugin ("kdeconnect_battery");
             this.battery_item.label = "Battery : %d%%".printf(device.battery);
             if (device.is_charging ())
                 this.battery_item.label += " (charging)";
@@ -152,9 +154,9 @@ namespace KDEConnectIndicator {
             unpair_item.visible = paired;
 
             separator.visible = paired;
-            browse_item.visible = paired;
+            browse_item.visible = paired && device.has_plugin ("kdeconnect_sftp");
             browse_item.sensitive = reachable;
-            send_item.visible = paired;
+            send_item.visible = paired && device.has_plugin ("kdeconnect_share");
             send_item.sensitive = reachable;
         }
     }

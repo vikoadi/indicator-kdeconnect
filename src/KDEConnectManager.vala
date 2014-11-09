@@ -29,6 +29,7 @@ namespace KDEConnectIndicator {
                 message ("retrying to find KDE Connect DBus service");
                 max_trying--;
             }
+            message ("KDE Connect daemon found");
 
             device_list = new SList<DeviceIndicator> ();
             populate_devices ();
@@ -147,7 +148,6 @@ namespace KDEConnectIndicator {
                     break;
                 }
                 message (d.path);
-                message (id);
             }
         }
         private string[] devices (bool only_reachable = false) {

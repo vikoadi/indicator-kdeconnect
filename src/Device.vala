@@ -45,6 +45,8 @@ namespace KDEConnectIndicator {
         }
         public int battery {
             get {
+                if (!has_plugin ("kdeconnect_battery"))
+                    return -1;
                 try {
                     var return_variant = conn.call_sync (
                             "org.kde.kdeconnect",
@@ -63,7 +65,7 @@ namespace KDEConnectIndicator {
                 } catch (Error e) {
                     message (e.message);
                 }
-                return 0;
+                return -1;
             }
         }
 
@@ -192,6 +194,8 @@ namespace KDEConnectIndicator {
         }
         public void send_file (string url) {
             try {
+                if (!has_plugin ("kdeconnect_share"))
+                    return;
                 conn.call_sync (
                         "org.kde.kdeconnect",
                         path+"/share",
@@ -250,6 +254,8 @@ namespace KDEConnectIndicator {
             return false;
         }
         public bool is_charging () {
+            if (!has_plugin ("kdeconnect_battery"))
+                return false;
             try {
                 var return_variant = conn.call_sync (
                         "org.kde.kdeconnect",
@@ -257,6 +263,27 @@ namespace KDEConnectIndicator {
                         "org.kde.kdeconnect.device.battery",
                         "isCharging",
                         null,
+                        null,
+                        DBusCallFlags.NONE,
+                        -1,
+                        null
+                        );
+                Variant i = return_variant.get_child_value (0);
+                if (i!=null)
+                    return i.get_boolean ();
+            } catch (Error e) {
+                message (e.message);
+            }
+            return false;
+        }
+        public bool has_plugin (string plugin) {
+            try {
+                var return_variant = conn.call_sync (
+                        "org.kde.kdeconnect",
+                        path,
+                        "org.kde.kdeconnect.device",
+                        "hasPlugin",
+                        new Variant ("(s)", plugin),
                         null,
                         DBusCallFlags.NONE,
                         -1,
@@ -305,6 +332,8 @@ namespace KDEConnectIndicator {
             }
         }
         public void browse () {
+            if (!has_plugin ("kdeconnect_sftp"))
+                return;
             if (is_mounted ())
                 open_file (mount_point);
             else {
@@ -362,6 +391,8 @@ namespace KDEConnectIndicator {
         }
         public void mount () {
             try {
+                if (!has_plugin ("kdeconnect_sftp"))
+                    return;
                 conn.call_sync (
                         "org.kde.kdeconnect",
                         path+"/sftp",
@@ -379,6 +410,8 @@ namespace KDEConnectIndicator {
         }
         public void unmount () {
             try {
+                if (!has_plugin ("kdeconnect_sftp"))
+                    return;
                 conn.call_sync (
                         "org.kde.kdeconnect",
                         path+"/sftp",

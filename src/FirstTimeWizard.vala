@@ -38,7 +38,7 @@ namespace KDEConnectIndicator {
         private Gtk.Widget create_connect_page () {
             return create_box (
                     Gtk.Orientation.HORIZONTAL,
-                    "Are you ready for your first device pairing?\n\n"+
+                    "<b>Are you ready for your first device pairing?</b>\n\n"+
                     "Now connect your devices through a wifi connection.\n"+
                     "Tethering should work too.\n\n"+
                     "Launch KDE Connect in your Android which you can download from "+
@@ -53,16 +53,16 @@ namespace KDEConnectIndicator {
                     Gtk.Orientation.VERTICAL,
                     "Everytime there is a new device connected, a new indicator will appear in your panel.\n"+
                     "From there you can pair and see its status\n\n"+
-                    "Now try to pair your device",
+                    "<b>Now try to pair your device</b>",
                     "/home/vikoadi/Pictures/indicator.png");
         }
 
         private Gtk.Widget create_finish_page () {
             return create_box (
                     Gtk.Orientation.VERTICAL,
-                    "Great, your device is set up\n\n"+
+                    "<b>Great, your device is set up</b>\n\n"+
                     "Finally you can enable KDEConnect Indicator "+
-                    "to be run on startup from your System Setting.\n\n"+
+                    "as startup application from your System Setting.\n\n"+
                     "enjoy!",
                     "/home/vikoadi/Pictures/startup.png");
         }
@@ -74,17 +74,10 @@ namespace KDEConnectIndicator {
             var l = new Gtk.Label (null);
             l.set_markup (markup);
             l.wrap = true;
+            l.justify = Gtk.Justification.LEFT;
             box.pack_start (l);
 
             return box;
-        }
-        private Gtk.Label create_label (string text) {
-            var label = new Gtk.Label (text);
-            label.wrap = true;
-            label.hexpand = true;
-            label.vexpand = true;
-
-            return label;
         }
     }
 }

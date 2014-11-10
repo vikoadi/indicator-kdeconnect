@@ -5,6 +5,9 @@
  */
 namespace KDEConnectIndicator {
     public class Application : Gtk.Application {
+        private KDEConnectManager manager;
+        private FirstTimeWizard ftw;
+
         public Application () {
             Object (application_id: "com.vikoadi.kdeconnectindicator",
                     flags: ApplicationFlags.FLAGS_NONE);
@@ -14,14 +17,17 @@ namespace KDEConnectIndicator {
         protected override void startup () {
             base.startup ();
 
-            var manager = new KDEConnectManager ();
+            manager = new KDEConnectManager ();
 
-            var ftw = new FirstTimeWizard (manager);
+            if (ftw == null && manager.get_devices_number () == 0)
+                ftw = new FirstTimeWizard (manager);
 
             new MainLoop ().run ();
         }
 
         protected override void activate () {
+            if (ftw == null && manager.get_devices_number () == 0)
+                new FirstTimeWizard (manager);
         }
     }
     int main (string[] args) {

@@ -76,6 +76,10 @@ namespace KDEConnectIndicator {
                 conn.signal_unsubscribe (i);
         }
 
+        public int get_devices_number () {
+            return (int) device_list.length ();
+        }
+
 
         private void show_no_service_daemon () {
             var msg = new Gtk.MessageDialog (

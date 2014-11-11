@@ -14,7 +14,7 @@ namespace KDEConnectIndicator {
         }
         public void install () {
             var desktop_file = File.new_for_path (
-                    prefix_dir +
+                    Constants.DATADIR +
                     "/applications/" +
                     desktop_file);
 

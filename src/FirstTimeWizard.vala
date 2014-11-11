@@ -38,12 +38,14 @@ namespace KDEConnectIndicator {
         private Gtk.Widget create_connect_page () {
             return create_box (
                     Gtk.Orientation.HORIZONTAL,
+
                     "<b>Are you ready for your first device pairing?</b>\n\n"+
-                    "Now connect your devices through a wifi connection.\n"+
-                    "Tethering should work too.\n\n"+
+                    "Now connect your devices using wifi connection.\n"+
+                    "Tethering should work too!\n\n"+
                     "Launch KDE Connect in your Android which you can download from "+
                     """<a href="https://play.google.com/store/apps/details?id=org.kde.kdeconnect_tp">"""+
                     "https://play.google.com/store/apps/details?id=org.kde.kdeconnect_tp</a>",
+
                     "/usr/share/icons/hicolor/256x256/apps/kdeconnect.png");
 
         }
@@ -51,19 +53,23 @@ namespace KDEConnectIndicator {
         private Gtk.Widget create_pair_page () {
             return create_box (
                     Gtk.Orientation.VERTICAL,
+
                     "Everytime there is a new device connected, a new indicator will appear in your panel.\n"+
-                    "From there you can pair and see its status\n\n"+
+                    "There, you can pair and see its status\n\n"+
                     "<b>Now try to pair your device</b>",
+
                     "/home/vikoadi/Pictures/indicator.png");
         }
 
         private Gtk.Widget create_finish_page () {
             return create_box (
                     Gtk.Orientation.VERTICAL,
-                    "<b>Great, your device is set up</b>\n\n"+
+
+                    "<b>Great, your device is all set</b>\n\n"+
                     "Finally you can enable KDEConnect Indicator "+
-                    "as startup application from your System Setting.\n\n"+
+                    "as startup application from your Autostart setting.\n\n"+
                     "enjoy!",
+
                     "/home/vikoadi/Pictures/startup.png");
         }
         private Gtk.Box create_box (Gtk.Orientation orientation, string markup, string image_path) {

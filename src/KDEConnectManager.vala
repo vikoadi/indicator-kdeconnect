@@ -132,6 +132,9 @@ namespace KDEConnectIndicator {
                 var d = new DeviceIndicator (path);
                 device_list.append (d);
             }
+
+            if (device_list.length () == 0)
+                message ("no paired device found, open KDE Connect in your phone to start pairing");
         }
         private void add_device (string path) {
             var d = new DeviceIndicator (path);

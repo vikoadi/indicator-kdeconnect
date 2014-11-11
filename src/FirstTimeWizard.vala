@@ -46,7 +46,7 @@ namespace KDEConnectIndicator {
                     """<a href="https://play.google.com/store/apps/details?id=org.kde.kdeconnect_tp">"""+
                     "https://play.google.com/store/apps/details?id=org.kde.kdeconnect_tp</a>",
 
-                    "/usr/share/icons/hicolor/256x256/apps/kdeconnect.png");
+                    Constants.DATADIR+"/icons/hicolor/256x256/apps/kdeconnect.png");
 
         }
 
@@ -58,7 +58,7 @@ namespace KDEConnectIndicator {
                     "There, you can pair and see its status\n\n"+
                     "<b>Now try to pair your device</b>",
 
-                    "/home/vikoadi/Pictures/indicator.png");
+                    Constants.PKGDATADIR+"/indicator.jpg");
         }
 
         private Gtk.Widget create_finish_page () {
@@ -70,7 +70,7 @@ namespace KDEConnectIndicator {
                     "as startup application from your Autostart setting.\n\n"+
                     "enjoy!",
 
-                    "/home/vikoadi/Pictures/startup.png");
+                    Constants.PKGDATADIR+"/startup.jpg");
         }
         private Gtk.Box create_box (Gtk.Orientation orientation, string markup, string image_path) {
             var box = new Gtk.Box (orientation, 10);

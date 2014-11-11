@@ -18,9 +18,12 @@ namespace KDEConnectIndicator {
             base.startup ();
 
             manager = new KDEConnectManager ();
+            var startup = new StartupManager ();
 
-            if (ftw == null && manager.get_devices_number () == 0)
+            if (ftw == null && manager.get_devices_number () == 0 && !startup.is_installed ()) {
                 ftw = new FirstTimeWizard (manager);
+                startup.install ();
+            }
 
             new MainLoop ().run ();
         }

@@ -29,8 +29,10 @@ namespace KDEConnectIndicator {
         }
 
         protected override void activate () {
-            if (ftw == null && manager.get_devices_number () == 0)
-                new FirstTimeWizard (manager);
+            if (manager.get_devices_number () == 0)
+                ftw = new FirstTimeWizard (manager);
+            else
+                message ("user already know how to pair, dont show FirstTimeWizard");
         }
     }
     int main (string[] args) {

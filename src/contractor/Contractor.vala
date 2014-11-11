@@ -49,7 +49,9 @@ namespace KDEConnectIndicator {
         Gtk.init (ref args);
 
         File f = File.new_for_commandline_arg (args[1]);
-        if (!f.query_exists ()) {
+
+        if (f.get_path() != null // null path means its remote file
+            && !f.query_exists ()) {
             message ("file doesnt exist");
             var msd = new Gtk.MessageDialog (null, Gtk.DialogFlags.MODAL,
                     Gtk.MessageType.WARNING, Gtk.ButtonsType.OK,

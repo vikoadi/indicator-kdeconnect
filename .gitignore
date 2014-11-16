@@ -3,3 +3,5 @@ obj-i686-linux-gnu
 debian/files
 debian/indicator-kdeconnect*
 *.swp
+*~
+/src/Constants.vala

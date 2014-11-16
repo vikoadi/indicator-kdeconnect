@@ -49,7 +49,7 @@ namespace KDEConnectIndicator {
                     "Tethering should work too!\n\n"+
                     "Launch KDE Connect in your Android which you can download from "+
                     """<a href="https://play.google.com/store/apps/details?id=org.kde.kdeconnect_tp">"""+
-                    "https://play.google.com/store/apps/details?id=org.kde.kdeconnect_tp</a>",
+                    "Google Play</a>",
 
                     Constants.DATADIR+"/icons/hicolor/256x256/apps/kdeconnect.png");
 
@@ -70,10 +70,10 @@ namespace KDEConnectIndicator {
             return create_box (
                     Gtk.Orientation.VERTICAL,
 
-                    "<b>Great, your device is all set</b>\n\n"+
+                    "<b>Great! your device is all set</b>\n\n"+
                     "Finally you can enable KDEConnect Indicator "+
                     "as startup application from your Autostart setting.\n\n"+
-                    "enjoy!",
+                    "Enjoy!",
 
                     Constants.PKGDATADIR+"/startup.jpg");
         }

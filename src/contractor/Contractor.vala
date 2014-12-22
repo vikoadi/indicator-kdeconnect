@@ -28,7 +28,10 @@ namespace KDEConnectIndicator {
 
             tv.cursor_changed.connect (()=>{
                 this.select_button.sensitive = (get_selected()>=0);
-                this.select_button.grab_focus ();
+            });
+            tv.row_activated.connect ((path, column) => {
+                tv.set_cursor (path, null, false);
+                this.response (Gtk.ResponseType.OK);
             });
         }
         public void set_list (Gtk.ListStore l) {

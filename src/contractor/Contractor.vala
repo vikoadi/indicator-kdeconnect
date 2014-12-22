@@ -22,15 +22,22 @@ namespace KDEConnectIndicator {
             content.pack_start (tv);
             add_button ("Cancel", Gtk.ResponseType.CANCEL);
             select_button = add_button ("Send", Gtk.ResponseType.OK);
+
             show_all ();
             this.response.connect (on_response);
 
             tv.cursor_changed.connect (()=>{
                 this.select_button.sensitive = (get_selected()>=0);
+                this.select_button.grab_focus ();
             });
         }
         public void set_list (Gtk.ListStore l) {
             tv.set_model (l);
+
+            // select first item
+            var path = new Gtk.TreePath.from_indices (0, -1);
+            tv.set_cursor (path, null, false);
+
         }
         public int get_selected () {
             Gtk.TreePath path;

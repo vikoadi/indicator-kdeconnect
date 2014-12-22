@@ -46,7 +46,8 @@ namespace KDEConnectIndicator {
 
                     "<b>Are you ready for your first device pairing?</b>\n\n"+
                     "Now connect your devices using wifi connection.\n"+
-                    "Tethering should work too!\n\n"+
+                    "Tethering should work too!\n"+
+                    "If you have Firewall running, please open port 1714-1764 for TCP and UDP\n\n"+
                     "Launch KDE Connect in your Android which you can download from "+
                     """<a href="https://play.google.com/store/apps/details?id=org.kde.kdeconnect_tp">"""+
                     "Google Play</a>",

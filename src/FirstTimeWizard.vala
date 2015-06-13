@@ -32,8 +32,8 @@ namespace KDEConnectIndicator {
                 if (stack.visible_child_name == "connect"){
                     stack.visible_child_name = "pair";
                     var d = new Device (id);
-                    d.pairing_successful.connect (()=>{
-                        if (stack.visible_child_name == "pair")
+                    d.pairing_changed.connect ((paired)=>{
+                        if (paired && stack.visible_child_name == "pair")
                             stack.visible_child_name = "finish";
                     });
                     list.append (d);

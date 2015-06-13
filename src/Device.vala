@@ -110,17 +110,6 @@ namespace KDEConnectIndicator {
             id = conn.signal_subscribe (
                     "org.kde.kdeconnect",
                     "org.kde.kdeconnect.device",
-                    "pairingSuccesful",
-                    path,
-                    null,
-                    DBusSignalFlags.NONE,
-                    void_signal_cb
-                    );
-            subs_identifier.append (id);
-
-            id = conn.signal_subscribe (
-                    "org.kde.kdeconnect",
-                    "org.kde.kdeconnect.device",
                     "pluginsChanged",
                     path,
                     null,
@@ -143,11 +132,11 @@ namespace KDEConnectIndicator {
             id = conn.signal_subscribe (
                     "org.kde.kdeconnect",
                     "org.kde.kdeconnect.device",
-                    "unpaired",
+                    "pairingChanged",
                     path,
                     null,
                     DBusSignalFlags.NONE,
-                    void_signal_cb
+                    boolean_signal_cb
                     );
             subs_identifier.append (id);
 
@@ -450,17 +439,11 @@ namespace KDEConnectIndicator {
         public void void_signal_cb (DBusConnection con, string sender, string object,
                 string interface, string signal_name, Variant parameter) {
             switch (signal_name) {
-                case "pairingSuccesful" :
-                    pairing_successful ();
-                    break;
                 case "pluginsChanged" :
                     plugins_changed ();
                     break;
                 case "reachableStatusChanged" :
-                    pairing_successful ();
-                    break;
-                case "unpaired" :
-                    unpaired ();
+                    pairing_changed (true);
                     break;
                 case "mounted" :
                     mounted ();
@@ -476,6 +459,9 @@ namespace KDEConnectIndicator {
             switch (signal_name) {
                 case "stateChanged" :
                     state_changed (param);
+                    break;
+                case "pairingChanged" :
+                    pairing_changed (param);
                     break;
             }
         }
@@ -502,10 +488,9 @@ namespace KDEConnectIndicator {
         }
         public signal void charge_changed (int charge);
         public signal void pairing_failed (string error);
-        public signal void pairing_successful ();
+        public signal void pairing_changed (bool paired);
         public signal void plugins_changed ();
         public signal void reachable_status_changed ();
-        public signal void unpaired ();
         public signal void mounted ();
         public signal void unmounted ();
         public signal void state_changed (bool state);

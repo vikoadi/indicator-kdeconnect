@@ -89,11 +89,6 @@ namespace KDEConnectIndicator {
                 update_pair_item ();
                 update_status_item ();
             });
-            device.pairing_successful.connect (()=>{
-                update_pair_item ();
-                update_status_item ();
-                update_battery_item ();
-            });
             device.plugins_changed.connect (()=>{
                 update_battery_item ();
                 update_pair_item ();
@@ -103,8 +98,10 @@ namespace KDEConnectIndicator {
                 update_pair_item ();
                 update_status_item ();
             });
-            device.unpaired.connect (()=>{
-                update_visibility ();
+            device.pairing_changed.connect ((paired)=>{
+                if (!paired)
+                    update_visibility ();
+
                 update_pair_item ();
                 update_status_item ();
                 update_battery_item ();

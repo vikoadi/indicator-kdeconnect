@@ -234,20 +234,9 @@ namespace KDEConnectIndicator {
         }
         public bool is_reachable () {
             try {
-                var return_variant = conn.call_sync (
-                        "org.kde.kdeconnect",
-                        path,
-                        "org.kde.kdeconnect.device",
-                        "isReachable",
-                        null,
-                        null,
-                        DBusCallFlags.NONE,
-                        -1,
-                        null
-                        );
-                Variant i = return_variant.get_child_value (0);
-                if (i!=null)
-                    return i.get_boolean ();
+                Variant return_variant=device_proxy.get_cached_property ("isReachable");
+                if (return_variant!=null)
+                    return return_variant.get_boolean ();
             } catch (Error e) {
                 message (e.message);
             }

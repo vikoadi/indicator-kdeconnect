@@ -70,8 +70,39 @@ namespace KDEConnectIndicator {
                     );
             subs_identifier.append (id);
 
+            try {
+                conn.call_sync (
+                        "org.kde.kdeconnect",
+                        "/modules/kdeconnect",
+                        "org.kde.kdeconnect.daemon",
+                        "acquireDiscoveryMode",
+                        new Variant ("(s)", "Indicator-KDEConnect"),
+                        null,
+                        DBusCallFlags.NONE,
+                        -1,
+                        null
+                        );
+            } catch (Error e) {
+                message (e.message);
+            }
         }
         ~KDEConnectManager () {
+            try {
+                conn.call_sync (
+                        "org.kde.kdeconnect",
+                        "/modules/kdeconnect",
+                        "org.kde.kdeconnect.daemon",
+                        "releaseDiscoveryMode",
+                        new Variant ("(s)", "Indicator-KDEConnect"),
+                        null,
+                        DBusCallFlags.NONE,
+                        -1,
+                        null
+                        );
+            } catch (Error e) {
+                message (e.message);
+            }
+
             foreach (uint i in subs_identifier)
                 conn.signal_unsubscribe (i);
         }
@@ -97,7 +128,8 @@ namespace KDEConnectIndicator {
             msg.run ();
         }
         private void run_kdeconnect_binary () {
-            File f = File.new_for_path ("/usr/lib/kde4/libexec/kdeconnectd");
+            //TODO: shouldn't hardcode the path
+            File f = File.new_for_path ("/usr/lib/libexec/kdeconnectd");
             if (f.query_exists ()) {
                 try {
                     Process.spawn_command_line_sync (f.get_path ());
